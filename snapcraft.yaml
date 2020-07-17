@@ -1,4 +1,4 @@
-name: core20
+name: core20-gdm
 version: "20"
 summary: Runtime environment based on Ubuntu 20.04
 description: |
