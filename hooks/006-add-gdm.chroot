@@ -5,9 +5,33 @@ set -e
 apt install --no-install-recommends -y \
     xterm \
     gdm3 \
-    policykit-1
+    policykit-1 \
+    xserver-xorg \
+    xserver-xorg-video-all \
+    libgl1-mesa-dri \
+    zenity \
+    yaru-theme-gtk \
+    yaru-theme-gnome-shell \
+    yaru-theme-icon \
+    fonts-ubuntu \
+    ubuntu-settings
 
+# Move D-Bus policy out of /etc
 mv /etc/dbus-1/system.d/gdm.conf /usr/share/dbus-1/system.d/
 
+# Move display-manager.service symlink out of /etc
 rm /etc/systemd/system/display-manager.service
 ln -s gdm.service /lib/systemd/system/display-manager.service
+
+# Write an X session that launches xterm
+mkdir -p /usr/share/xsessions
+cat <<\EOF > /usr/share/xsessions/xterm-session.desktop
+[Desktop Entry]
+Name=Xterm Session
+Comment=This session spawns an xterm
+Exec=/usr/bin/xterm -geometry 80x40+10+10
+TryExec=/usr/bin/gnome-shell
+Type=Application
+DesktopNames=ubuntu:GNOME
+X-GDM-SessionRegisters=false
+EOF
