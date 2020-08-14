@@ -68,3 +68,4 @@
 /etc/machine-id                         auto                    persistent  transition  none
 /var/lib/AccountsService                auto                    persistent  transition  none
 /var/lib/gdm3                           auto                    persistent  transition  none
+/usr/share/wayland-sessions             auto                    persistent  transition  none
