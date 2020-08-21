@@ -4,6 +4,10 @@ set -e
 
 export DEBIAN_FRONTEND=noninteractive
 
+# Ensure /proc is available
+mount -t proc proc /proc
+trap 'umount /proc' EXIT
+
 apt install --no-install-recommends -y \
     xterm \
     gdm3 \
