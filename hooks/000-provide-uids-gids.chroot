@@ -121,6 +121,7 @@ dnsmasq:x:109:65534:Reserved:/var/lib/misc:/bin/false
 tss:x:110:116:Reserved:/var/lib/tpm:/bin/false
 geoclue:x:111:118::/var/lib/geoclue:/bin/false
 gdm:x:112:119:Gnome Display Manager:/var/lib/gdm3:/bin/false
+colord:x:113:121:colord colour management daemon:/var/lib/colord:/usr/sbin/nologin
 EOF
 cp /etc/passwd /etc/passwd.orig # We make a copy for a later sanity-compare
 
@@ -158,6 +159,7 @@ dnsmasq:*:16644:0:99999:7:::
 tss:*:16701:0:99999:7:::
 geoclue:*:18459:0:99999:7:::
 gdm:*:18459:0:99999:7:::
+colord:*:18495:0:99999:7:::
 EOF
 cp /etc/shadow /etc/shadow.orig # We make a copy for a later sanity-compare
 
@@ -221,6 +223,8 @@ input:x:107:
 render:x:117:
 geoclue:x:118:
 gdm:x:119:
+scanner:x:120:
+colord:x:121:
 EOF
 cp /etc/group /etc/group.orig # We make a copy for a later sanity-compare
 
@@ -284,5 +288,7 @@ input:!::
 render:!::
 geoclue:!::
 gdm:!::
+scanner:!::
+colord:!::
 EOF
 cp /etc/gshadow /etc/gshadow.orig # We make a copy for a later sanity-compare
