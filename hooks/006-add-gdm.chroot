@@ -12,8 +12,6 @@ apt install --no-install-recommends -y \
     xterm \
     gdm3 \
     policykit-1 \
-    xserver-xorg \
-    xserver-xorg-video-all \
     xwayland \
     libgl1-mesa-dri \
     zenity \
@@ -32,6 +30,9 @@ apt install --no-install-recommends -y \
     gnome-shell-extension-desktop-icons \
     gnome-shell-extension-ubuntu-dock \
     gnome-control-center
+
+# Remove Ubuntu X11 session
+rm /usr/share/xsessions/ubuntu.desktop
 
 # Move D-Bus policy out of /etc
 mv /etc/dbus-1/system.d/gdm.conf /usr/share/dbus-1/system.d/
@@ -56,4 +57,32 @@ TryExec=/usr/bin/gnome-shell
 Type=Application
 DesktopNames=ubuntu:GNOME
 X-GDM-SessionRegisters=false
+EOF
+
+# Set a default resolution for the greeter, a bit higher than 640x480
+mkdir -p /var/lib/gdm3/.config
+cat <<\EOF > /var/lib/gdm3/.config/monitors.xml
+<monitors version="2">
+  <configuration>
+    <logicalmonitor>
+      <x>0</x>
+      <y>0</y>
+      <scale>1</scale>
+      <primary>yes</primary>
+      <monitor>
+        <monitorspec>
+          <connector>Virtual-1</connector>
+          <vendor>unknown</vendor>
+          <product>unknown</product>
+          <serial>unknown</serial>
+        </monitorspec>
+        <mode>
+          <width>1024</width>
+          <height>768</height>
+          <rate>60</rate>
+        </mode>
+      </monitor>
+    </logicalmonitor>
+  </configuration>
+</monitors>
 EOF
