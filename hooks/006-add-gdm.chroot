@@ -11,6 +11,7 @@ trap 'umount /proc' EXIT
 apt install --no-install-recommends -y \
     xterm \
     gdm3 \
+    gnome-initial-setup \
     policykit-1 \
     xwayland \
     libgl1-mesa-dri \
@@ -72,14 +73,14 @@ cat <<\EOF > /var/lib/gdm3/.config/monitors.xml
       <monitor>
         <monitorspec>
           <connector>Virtual-1</connector>
-          <vendor>unknown</vendor>
-          <product>unknown</product>
-          <serial>unknown</serial>
+          <vendor>RHT</vendor>
+          <product>QEMU Monitor</product>
+          <serial>0x00000000</serial>
         </monitorspec>
         <mode>
           <width>1024</width>
           <height>768</height>
-          <rate>60</rate>
+          <rate>74.993118286132812</rate>
         </mode>
       </monitor>
     </logicalmonitor>
