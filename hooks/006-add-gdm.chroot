@@ -47,6 +47,16 @@ ln -s gdm.service /lib/systemd/system/display-manager.service
 # reliably get rid of it with Conflicts/After
 touch /var/lib/console-conf/complete
 
+# accountsservice will call /usr/sbin/useradd to create users.  This
+# fails with read-only /etc/passwd, so we wrap it to use the
+# extrausers db:
+mv /usr/sbin/useradd /usr/sbin/useradd.real
+cat <<\EOF > /usr/sbin/useradd
+#!/bin/sh
+exec /usr/sbin/useradd.real --extrausers "$@"
+EOF
+chmod a+x /usr/sbin/useradd
+
 # Write an X session that launches xterm
 mkdir -p /usr/share/xsessions
 cat <<\EOF > /usr/share/xsessions/xterm-session.desktop
@@ -58,32 +68,4 @@ TryExec=/usr/bin/gnome-shell
 Type=Application
 DesktopNames=ubuntu:GNOME
 X-GDM-SessionRegisters=false
-EOF
-
-# Set a default resolution for the greeter, a bit higher than 640x480
-mkdir -p /var/lib/gdm3/.config
-cat <<\EOF > /var/lib/gdm3/.config/monitors.xml
-<monitors version="2">
-  <configuration>
-    <logicalmonitor>
-      <x>0</x>
-      <y>0</y>
-      <scale>1</scale>
-      <primary>yes</primary>
-      <monitor>
-        <monitorspec>
-          <connector>Virtual-1</connector>
-          <vendor>RHT</vendor>
-          <product>QEMU Monitor</product>
-          <serial>0x00000000</serial>
-        </monitorspec>
-        <mode>
-          <width>1024</width>
-          <height>768</height>
-          <rate>74.993118286132812</rate>
-        </mode>
-      </monitor>
-    </logicalmonitor>
-  </configuration>
-</monitors>
 EOF
