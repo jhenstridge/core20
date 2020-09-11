@@ -15,6 +15,7 @@ apt install --no-install-recommends -y \
     policykit-1 \
     xwayland \
     libgl1-mesa-dri \
+    locales-all \
     zenity \
     yaru-theme-gtk \
     yaru-theme-gnome-shell \
@@ -47,24 +48,21 @@ ln -s gdm.service /lib/systemd/system/display-manager.service
 # reliably get rid of it with Conflicts/After
 touch /var/lib/console-conf/complete
 
-# accountsservice will call /usr/sbin/useradd to create users.  This
-# fails with read-only /etc/passwd, so we wrap it to use the
-# extrausers db:
-mv /usr/sbin/useradd /usr/sbin/useradd.real
-cat <<\EOF > /usr/sbin/useradd
-#!/bin/sh
-exec /usr/sbin/useradd.real --extrausers "$@"
-EOF
-chmod a+x /usr/sbin/useradd
-
-# Ubuntu patches accountsservice to call adduser instead, so patch
-# that too.
+# gnome-initial-setup uses AccountsService to create the user account.
+# AccountsService in turn calls /usr/sbin/adduser.  Replace that
+# script with a wrapper that adds the --extrausers argument.
+#
+# Unfortunately this does not work for the addusers call to add the
+# user to the sudo group.
 mv /usr/sbin/adduser /usr/sbin/adduser.real
 cat <<\EOF > /usr/sbin/adduser
 #!/bin/sh
 exec /usr/sbin/adduser.real --extrausers "$@"
 EOF
 chmod a+x /usr/sbin/adduser
+
+# Re-enable the language page of gnome-initial-setup
+sed -i '/skip=/ s/language;//' /usr/lib/gnome-initial-setup/vendor.conf
 
 # Write an X session that launches xterm
 mkdir -p /usr/share/xsessions
