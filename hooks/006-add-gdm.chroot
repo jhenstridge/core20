@@ -57,6 +57,15 @@ exec /usr/sbin/useradd.real --extrausers "$@"
 EOF
 chmod a+x /usr/sbin/useradd
 
+# Ubuntu patches accountsservice to call adduser instead, so patch
+# that too.
+mv /usr/sbin/adduser /usr/sbin/adduser.real
+cat <<\EOF > /usr/sbin/adduser
+#!/bin/sh
+exec /usr/sbin/adduser.real --extrausers "$@"
+EOF
+chmod a+x /usr/sbin/adduser
+
 # Write an X session that launches xterm
 mkdir -p /usr/share/xsessions
 cat <<\EOF > /usr/share/xsessions/xterm-session.desktop
