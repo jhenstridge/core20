@@ -43,6 +43,10 @@ mv /etc/dbus-1/system.d/gdm.conf /usr/share/dbus-1/system.d/
 rm /etc/systemd/system/display-manager.service
 ln -s gdm.service /lib/systemd/system/display-manager.service
 
+# Remove D-Bus service activation files provided by
+# ubuntu-desktop-session snap.
+rm /usr/share/dbus-1/services/org.gnome.Terminal.service
+
 # Disable console-conf, since it interferes with GDM taking over
 # /dev/tty1.  Due to the ExecStartPre/ExecStopPost commands, we can't
 # reliably get rid of it with Conflicts/After
