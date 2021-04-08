@@ -45,6 +45,7 @@ ln -s gdm.service /lib/systemd/system/display-manager.service
 
 # Remove D-Bus service activation files provided by
 # ubuntu-desktop-session snap.
+rm /usr/share/dbus-1/services/org.gnome.Nautilus.service
 rm /usr/share/dbus-1/services/org.gnome.Terminal.service
 
 # Disable console-conf, since it interferes with GDM taking over
