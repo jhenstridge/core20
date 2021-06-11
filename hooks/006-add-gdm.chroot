@@ -31,7 +31,9 @@ apt install --no-install-recommends -y \
     gnome-shell-extension-appindicator \
     gnome-shell-extension-desktop-icons \
     gnome-shell-extension-ubuntu-dock \
-    gnome-control-center
+    gnome-control-center \
+    xdg-desktop-portal \
+    xdg-desktop-portal-gtk
 
 # Remove Ubuntu X11 session
 rm /usr/share/xsessions/ubuntu.desktop
@@ -47,6 +49,10 @@ ln -s gdm.service /lib/systemd/system/display-manager.service
 # ubuntu-desktop-session snap.
 rm /usr/share/dbus-1/services/org.gnome.Nautilus.service
 rm /usr/share/dbus-1/services/org.gnome.Terminal.service
+rm /usr/share/dbus-1/services/org.freedesktop.portal.Desktop.service
+rm /usr/share/dbus-1/services/org.freedesktop.portal.Documents.service
+rm /usr/share/dbus-1/services/org.freedesktop.impl.portal.desktop.gtk.service
+rm /usr/share/dbus-1/services/org.freedesktop.impl.portal.PermissionStore.service
 
 # Disable console-conf, since it interferes with GDM taking over
 # /dev/tty1.  Due to the ExecStartPre/ExecStopPost commands, we can't
